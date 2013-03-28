@@ -8,7 +8,7 @@ Simple Asset Server for [GridFS](http://docs.mongodb.org/manual/applications/gri
 * __Command__: `ab -n 1000 -c 100 http://localhost:8080/file.png`
 
 
-### Ruby Metal:
+### Rails Metal:
     Document Length:        73800 bytes
 
     Concurrency Level:      100
