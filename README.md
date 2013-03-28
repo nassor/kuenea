@@ -44,37 +44,35 @@ _Only tested with go tip, you may have problems with go 1.0_
      100%   2642 (longest request)
 
 ### Kuenea Asset Server
-    Document Length:        73800 bytes
-
     Concurrency Level:      100
-    Time taken for tests:   0.309 seconds
+    Time taken for tests:   0.237 seconds
     Complete requests:      1000
     Failed requests:        0
     Write errors:           0
     Total transferred:      73901000 bytes
     HTML transferred:       73800000 bytes
-    Requests per second:    3237.52 [#/sec] (mean) <<<<<<<
-    Time per request:       30.888 [ms] (mean)
-    Time per request:       0.309 [ms] (mean, across all concurrent requests)
-    Transfer rate:          233648.71 [Kbytes/sec] received
+    Requests per second:    4227.40 [#/sec] (mean)
+    Time per request:       23.655 [ms] (mean)
+    Time per request:       0.237 [ms] (mean, across all concurrent requests)
+    Transfer rate:          305087.02 [Kbytes/sec] received
 
     Connection Times (ms)
                   min  mean[+/-sd] median   max
     Connect:        0    0   0.6      0       3
-    Processing:    12   29   3.4     30      38
-    Waiting:       12   29   3.4     30      38
-    Total:         15   30   3.4     30      40
+    Processing:    15   23   4.0     22      36
+    Waiting:       15   22   3.9     22      35
+    Total:         15   23   4.3     22      37
 
     Percentage of the requests served within a certain time (ms)
-      50%     30
-      66%     31
-      75%     32
-      80%     33
-      90%     34
-      95%     35
+      50%     22
+      66%     24
+      75%     25
+      80%     26
+      90%     28
+      95%     33
       98%     36
-      99%     38
-     100%     40 (longest request)
+      99%     37
+     100%     37 (longest request)
 
 
 ## TODO
