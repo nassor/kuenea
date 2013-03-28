@@ -79,6 +79,7 @@ _Only tested with go tip, you may have problems with go 1.0_
 
 ## TODO
 * __Tests__
+* __DB Auth__
 * __Multi database/path support__
 * __Improve Error Messages__
 * Config by cmd flags
