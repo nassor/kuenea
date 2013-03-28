@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"strings"
 
 	"labix.org/v2/mgo"
 )
@@ -37,7 +38,7 @@ func main() {
 
 // Handle server requests, find file and response.
 func gridHandler(w http.ResponseWriter, r *http.Request) {
-	file, err := gfs.Open(r.URL.Path[1:])
+	file, err := gfs.Open(strings.Replace(r.URL.Path[1:], config.Path, "", 1))
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(w, "%s", "Not Found")
