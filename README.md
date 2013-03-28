@@ -2,6 +2,8 @@
 
 Simple Asset Server for [GridFS](http://docs.mongodb.org/manual/applications/gridfs/).
 
+_Only tested with go tip, you may have problems with go 1.0_
+
 ## Benchmark
 * __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 12.04
 * __Set__: Reach 72.2kb image / requests = 1k / concurrency = 100 | _only local_
