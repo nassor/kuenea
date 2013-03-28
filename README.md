@@ -82,6 +82,7 @@ _Only tested with go tip, you may have problems with go 1.0_
 * __DB Auth__
 * __Multi database/path support__
 * __Improve Error Messages__
+* Cache-Control
 * Config by cmd flags
 * Improve Docs
 * SysV init config file
