@@ -27,7 +27,7 @@ func main() {
 	session := mdbSession.DB(config.DBName)
 	gfs = session.GridFS("fs")
 
-	http.HandleFunc(config.Path, gridHandler)
+	http.HandleFunc("/" + config.Path, gridHandler)
 	s := &http.Server{
 		Addr:         config.BindWithPort(),
 		ReadTimeout:  10 * time.Second,
