@@ -46,7 +46,13 @@ func gridHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	b := make([]byte, file.Size())
-	file.Read(b)
+	_, err = file.Read(b)
+	if err != nil {
+	    w.WriteHeader(http.StatusInternalServerError)
+	    fmt.Fprintf(w, "%s", "Can't reach file")
+	    return
+	}
+	
 	w.Header().Set("Content-Type", file.ContentType())
 	fmt.Fprintf(w, "%s", b)
 	file.Close()
