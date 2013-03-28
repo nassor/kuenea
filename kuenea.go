@@ -54,6 +54,6 @@ func gridHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	w.Header().Set("Content-Type", file.ContentType())
-	fmt.Fprintf(w, "%s", b)
+	w.Write(b)
 	file.Close()
 }
