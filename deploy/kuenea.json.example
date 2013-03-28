@@ -1,0 +1,7 @@
+{
+	"Bind" : "localhost",
+	"Port" : 8080,
+	"Path" : "/",
+	"Servers" : [ "localhost:27017" ],
+	"DBName" : "test"
+}

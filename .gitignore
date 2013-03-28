@@ -1,0 +1,4 @@
+*.orig
+*.rej
+*.exe
+.*.swp
