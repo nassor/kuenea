@@ -3,9 +3,10 @@
 Simple Asset Server for [GridFS](http://docs.mongodb.org/manual/applications/gridfs/).
 
 ## Benchmark
-__Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 12.04
-__Set__: Reach 72.2kb image / requests = 1k / concurrency = 100 | _only local_
-__Command__: `ab -n 1000 -c 100 http://localhost:8080/file.png`
+* __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 12.04
+* __Set__: Reach 72.2kb image / requests = 1k / concurrency = 100 | _only local_
+* __Command__: `ab -n 1000 -c 100 http://localhost:8080/file.png`
+
 
 ### Ruby Metal:
     Document Length:        73800 bytes
@@ -82,6 +83,6 @@ __Command__: `ab -n 1000 -c 100 http://localhost:8080/file.png`
 * Improve Docs
 * SysV init config file
 
-### Thank You
-Go Community
-Gustavo Niemeyer and Contributors for awesome [MongoDB Driver (mgo)](http://labix.org/mgo)
+## Thank You
+* Go Community
+* Gustavo Niemeyer and Contributors for awesome [MongoDB Driver (mgo)](http://labix.org/mgo)
