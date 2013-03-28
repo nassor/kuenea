@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 	"strings"
+	"time"
+	"io"
 
 	"labix.org/v2/mgo"
 )
@@ -27,7 +28,7 @@ func main() {
 	session := mdbSession.DB(config.DBName)
 	gfs = session.GridFS("fs")
 
-	http.HandleFunc("/" + config.Path, gridHandler)
+	http.HandleFunc("/"+config.Path, gridHandler)
 	s := &http.Server{
 		Addr:         config.BindWithPort(),
 		ReadTimeout:  10 * time.Second,
@@ -44,16 +45,41 @@ func gridHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s", "Not Found")
 		return
 	}
+	defer file.Close()
 
-	b := make([]byte, file.Size())
-	_, err = file.Read(b)
-	if err != nil {
-	    w.WriteHeader(http.StatusInternalServerError)
-	    fmt.Fprintf(w, "%s", "Can't reach file")
-	    return
-	}
-	
 	w.Header().Set("Content-Type", file.ContentType())
-	w.Write(b)
-	file.Close()
+
+	// 150KB or less fast delivery
+	// If more reduce usage of memory with buffer
+	fileSize := file.Size()
+	if fileSize <= 153600 {
+		buffer := make([]byte, file.Size())
+		_, err = file.Read(buffer)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprintf(w, "%s", "Can't reach file")
+			return
+		}
+
+		w.Write(buffer)
+		return
+	}
+
+	for {
+		buffer := make([]byte, 65536)
+		_, err = file.Read(buffer)
+
+		if err == io.EOF {
+			w.(http.Flusher).Flush()
+			break
+		}
+
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprintf(w, "%s", "Can't reach file")
+			return
+		}
+
+		w.Write(buffer)
+	}
 }
