@@ -1,7 +1,13 @@
 {
-	"Bind" : "localhost",
-	"Port" : 8080,
-	"Path" : "",
-	"Servers" : [ "localhost:27017" ],
-	"DBName" : "test"
+    "Database": {
+        "Servers" : [ "localhost:27017" ],
+    	"DBName"  : "test",
+    	"Path"    : ""
+    },
+    
+    "Http": {
+	    "Bind"    : "localhost",
+	    "Port"    : 8080,
+	    "Timeout" : 20000
+	}
 }

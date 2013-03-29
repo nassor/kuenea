@@ -8,13 +8,26 @@ import (
 	"strings"
 )
 
-// Configuration structure of asset server
-type Config struct {
-	Bind    string   // IP Bind
-	Port    int      // Port to use
-	Path    string   // Path for server execution
+// Database connection config
+type DatabaseConfig struct {
 	Servers []string // MongoDB Server for mgo.Dial
 	DBName  string   // MongoDB Database
+	DBUser  string
+	DBPass  string
+	Path    string // One Path for each Database
+}
+
+// HTTP Server config
+type HttpServerConfig struct {
+	Bind    string // IP Bind
+	Port    int    // Port to use
+	Timeout int64  // Conn timeout
+}
+
+// Configuration structure of asset server
+type Config struct {
+	Database DatabaseConfig
+	Http     HttpServerConfig
 }
 
 // Read file json config file and setup asset server
@@ -33,10 +46,10 @@ func (config *Config) ReadConfigFile(fileName string) {
 // Return a string with all mongodb servers.
 // Used by mgo.Dial()
 func (config Config) DialServers() string {
-	return strings.Join(config.Servers, ",")
+	return strings.Join(config.Database.Servers, ",")
 }
 
 // Return string <bind>:<port> as tcp connect setting
 func (config Config) BindWithPort() string {
-	return config.Bind + ":" + strconv.Itoa(config.Port)
+	return config.Http.Bind + ":" + strconv.Itoa(config.Http.Port)
 }
