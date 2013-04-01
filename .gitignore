@@ -2,4 +2,5 @@
 *.rej
 *.exe
 .*.swp
+*.un~
 kuenea
