@@ -1,9 +1,9 @@
 package handler
 
 import (
+	"io"
 	"net/http"
 	"strings"
-	"io"
 
 	. "kuenea/conf"
 	"labix.org/v2/mgo"
@@ -21,7 +21,6 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	_, err = io.Copy(w, file)
 	if err != nil {
 		w.WriteHeader(500)
@@ -37,4 +36,3 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func GridFSServer(gfs *mgo.GridFS, config *Config) http.Handler {
 	return &gridFSHandler{gfs, config.Database.Path}
 }
-

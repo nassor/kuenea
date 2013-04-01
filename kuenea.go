@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 	"time"
-	
+
 	. "kuenea/conf"
 	"kuenea/handler"
 	"labix.org/v2/mgo"
@@ -35,4 +35,3 @@ func main() {
 
 	s.ListenAndServe()
 }
-
