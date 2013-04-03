@@ -5,19 +5,18 @@ import (
 	"net/http"
 	"strings"
 
-	. "kuenea/conf"
 	"labix.org/v2/mgo"
 )
 
 type gridFSHandler struct {
-	GFS  *mgo.GridFS
-	Path string
+	GFS      *mgo.GridFS
+	PathFile string
 }
 
 func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	file, err := g.GFS.Open(strings.Replace(r.URL.Path[1:], g.Path, "", 1))
+	file, err := g.GFS.Open(strings.Replace(r.URL.Path[1:], g.PathFile, "", 1))
 	if err != nil {
-		w.WriteHeader(500)
+		http.NotFound(w, r)
 		return
 	}
 
@@ -33,6 +32,6 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handle server requests, find file and response.
-func GridFSServer(gfs *mgo.GridFS, config *Config) http.Handler {
-	return &gridFSHandler{gfs, config.Database.Path}
+func GridFSServer(gfs *mgo.GridFS, pathFile string) http.Handler {
+	return &gridFSHandler{gfs, pathFile}
 }

@@ -17,6 +17,12 @@ type DatabaseConfig struct {
 	Path    string // One Path for each Database
 }
 
+// Filesystem folder config
+type LocalFSConfig struct {
+	Root string
+	Path string
+}
+
 // HTTP Server config
 type HttpServerConfig struct {
 	Bind    string // IP Bind
@@ -26,8 +32,9 @@ type HttpServerConfig struct {
 
 // Configuration structure of asset server
 type Config struct {
-	Database DatabaseConfig
-	Http     HttpServerConfig
+	Databases []DatabaseConfig
+	Local     []LocalFSConfig
+	Http      HttpServerConfig
 }
 
 // Read file json config file and setup asset server
@@ -45,8 +52,8 @@ func (config *Config) ReadConfigFile(fileName string) {
 
 // Return a string with all mongodb servers.
 // Used by mgo.Dial()
-func (config Config) DialServers() string {
-	return strings.Join(config.Database.Servers, ",")
+func (dbConfig DatabaseConfig) DialServers() string {
+	return strings.Join(dbConfig.Servers, ",")
 }
 
 // Return string <bind>:<port> as tcp connect setting

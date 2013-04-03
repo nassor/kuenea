@@ -1,10 +1,13 @@
 {
-    "Database": {
-        "Servers" : [ "localhost:27017" ],
+    "Databases": [{
+      "Servers" : [ "localhost:27017" ],
     	"DBName"  : "test",
     	"Path"    : ""
-    },
-    
+    }],
+    "Local": [{
+      "Root" : "/home/user/go/src/kuenea/test_data/",
+      "Path" : "fs_test"
+    }],
     "Http": {
 	    "Bind"    : "localhost",
 	    "Port"    : 8080,
