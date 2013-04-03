@@ -16,9 +16,9 @@ __Requests: 1000 / Concurrency: 100__
 
 |Server      |Req/s     |Time taken  |Time per Req       |
 |------------|----------|------------|-------------------|
-|Kuenea(Go)  |4944.67   |0.202 s     |20.224 [ms] (mean) |
-|Node.js     |2060.11   |0.485 s     |48.541 [ms] (mean) |
-|Rack(Ruby)  |408.02    |2.451 s     |245.084 [ms] (mean)|
+|Kuenea(Go)  |4944.67   |0.202 s     |20.224 ms (mean) |
+|Node.js     |2060.11   |0.485 s     |48.541 ms (mean) |
+|Rack(Ruby)  |408.02    |2.451 s     |245.084 ms (mean)|
 
 
 ## TODO
