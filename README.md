@@ -1,6 +1,6 @@
 # Kuenea
 
-Simple Asset Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) or filesystem.
+File Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) or/and filesystem over HTTP
 
 _Only tested with go tip, you may have problems with go 1.0_
 
