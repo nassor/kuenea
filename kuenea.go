@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -11,34 +12,38 @@ import (
 )
 
 func main() {
-	log.Println("Start Kuenea Assets Server")
+	log.Println("Starting Kuenea file server...")
 
 	var config conf.Config
-	config.ReadConfigFile("/etc/kuenea/kuenea.json")
 
-	for server := range config.Databases {
-		mdbSession, err := mgo.Dial(config.Databases[server].DialServers())
+	err := config.ReadConfigFile("/etc/kuenea/kuenea.json")
+	if err != nil {
+		log.Fatalf("Could not read config file: %v", err.Error())
+	}
+
+	for _, db := range config.Databases {
+		mdbSession, err := mgo.Dial(db.DialServers())
 		if err != nil {
-			panic(err)
+			log.Fatalf("Could not contact server %v: %v", db.DialServers(), err.Error())
 		}
 		defer mdbSession.Close()
 
 		mdbSession.SetMode(mgo.Monotonic, true)
-		session := mdbSession.DB(config.Databases[server].DBName)
+		session := mdbSession.DB(db.DBName)
 
-		log.Println("MongoDB: " + config.Databases[server].DialServers() + ":" + config.Databases[server].DBName + " -> " + config.Databases[server].Path)
-		http.Handle("/"+config.Databases[server].Path, handler.GridFSServer(session.GridFS("fs"), config.Databases[server].Path))
+		log.Printf("MongoDB: %v:%v -> %v", db.DialServers(), db.DBName, db.Path)
+		http.Handle(fmt.Sprintf("/%v", db.Path), handler.GridFSServer(session.GridFS("fs"), db.Path))
 	}
 
-	for folder := range config.Local {
-		log.Println("LocalFS: " + config.Local[folder].Root + " -> " + config.Local[folder].Path)
-		http.Handle("/"+config.Local[folder].Path, http.StripPrefix("/"+config.Local[folder].Path, http.FileServer(http.Dir(config.Local[folder].Root))))
+	for _, local := range config.Local {
+		log.Printf("LocalFS: %v -> %v", local.Root, local.Path)
+		http.Handle("/"+local.Path, http.StripPrefix("/"+local.Path, http.FileServer(http.Dir(local.Root))))
 	}
 
 	s := &http.Server{
 		Addr:         config.BindWithPort(),
 		ReadTimeout:  time.Duration(config.Http.Timeout) * time.Millisecond,
-		WriteTimeout: 0 * time.Second}
+		WriteTimeout: 0}
 
 	log.Fatal(s.ListenAndServe())
 }

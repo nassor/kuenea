@@ -19,16 +19,15 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+	defer file.Close()
 
 	_, err = io.Copy(w, file)
 	if err != nil {
-		w.WriteHeader(500)
+		http.Error(w, "gridfs read error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", file.ContentType())
-	file.Close()
-
 }
 
 // Handle server requests, find file and response.

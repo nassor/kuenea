@@ -3,7 +3,6 @@ package conf
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"strconv"
 	"strings"
 )
@@ -38,16 +37,18 @@ type Config struct {
 }
 
 // Read file json config file and setup asset server
-func (config *Config) ReadConfigFile(fileName string) {
+func (config *Config) ReadConfigFile(fileName string) error {
 	file, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	err = json.Unmarshal(file, config)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+
+	return nil
 }
 
 // Return a string with all mongodb servers.
