@@ -5,8 +5,8 @@
     	"Path"    : ""
     }],
     "Local": [{
-      "Root" : "/home/user/go/src/kuenea/test_data/",
-      "Path" : "fs_test"
+      "Root" : "/home/user/go/src/kuenea/test_data",
+      "Path" : "fs_test/"
     }],
     "Http": {
 	    "Bind"    : "localhost",
