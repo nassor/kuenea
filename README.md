@@ -2,7 +2,7 @@
 
 File Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) or/and filesystem over HTTP
 
-_Only tested with go tip, you may have problems with go 1.0_
+_Only tested with go 1.1_
 
 ## Why Kuenea?
 After trying use gridfs-fuse and nginx-gridfs without success i decided develop gridfs asset server for web projects.
