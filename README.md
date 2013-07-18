@@ -2,33 +2,28 @@
 
 File Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) or/and filesystem over HTTP
 
-_Only tested with go tip, you may have problems with go 1.0_
+If you have a distributed application, is using mongodb, prefer keep all your assets in mongodb using gridfs and you think filesystem or CDN solutions are too painful to manage, probably Kuenea is for you.
 
-## Why Kuenea?
-After trying use gridfs-fuse and nginx-gridfs without success i decided develop gridfs asset server for web projects.
+_Tested with go 1.1.1 and labix/mgo r2013.05.19_
 
 ## Benchmark
-* __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 12.04
+* __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 13.04
 * __Set__: Reach 55.6kB image _only local requests_
 * __Software__: `Apache Benchmark`
 
-__Requests: 1000 / Concurrency: 100__
+__Requests: 10000 / Concurrency: 1000__
 
-|Server      |Req/s     |Time taken  |Time per Req       |
-|------------|----------|------------|-------------------|
-|Kuenea(Go)  |4944.67   |0.202 s     |20.224 ms (mean) |
-|Node.js     |2060.11   |0.485 s     |48.541 ms (mean) |
-|Rack(Ruby)  |408.02    |2.451 s     |245.084 ms (mean)|
-
-* [Node.js Code](https://github.com/rossan/nodejs-gridfs-http-server)
-* [Ruby (Rack) Code](https://github.com/rossan/rack-gridfs-http-server)
+|Server      |Req/s     |Time taken  |
+|------------|----------|------------|
+|Kuenea - GridFS | 5070.85   |1.972 s |
+|Kuenea - Filesystem | 10806.92   |0.925 s  |
 
 ## TODO
 * __Tests__
 * __DB Auth__
 * __Improve Error Messages__
-* Cache-Control
-* Config by cmd flags
+* GridFS Memory Cache
+* HTTP Cache-Control
 * Improve Docs
 * SysV init config file
 

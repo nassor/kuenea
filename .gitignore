@@ -3,4 +3,5 @@
 *.exe
 .*.swp
 *.un~
+*.json
 kuenea
