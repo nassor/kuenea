@@ -2,7 +2,11 @@
 
 File Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) or/and filesystem over HTTP
 
+<<<<<<< HEAD
 If you have a distributed application, is using mongodb, prefer keep all your assets in mongodb using gridfs and you think filesystem or CDN solutions are too painful to manage, probably Kuenea is for you.
+=======
+_Only tested with go 1.1_
+>>>>>>> aca15fe... Move no code files to extra folder.
 
 _Tested with go 1.1.1 and labix/mgo r2013.05.19_
 
