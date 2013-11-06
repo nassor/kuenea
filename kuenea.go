@@ -11,7 +11,6 @@ import (
 
 	"kuenea/conf"
 	"kuenea/handler"
-	"labix.org/v2/mgo"
 )
 
 func main() {
@@ -64,16 +63,8 @@ func loadConfig() (conf.Config, error) {
 
 func loadGridsFS(config conf.Config) error {
 	for _, db := range config.Databases {
-		mdbSession, err := mgo.Dial(db.DialServers())
-		if err != nil {
-			return err
-		}
-
-		mdbSession.SetMode(mgo.Monotonic, true)
-		session := mdbSession.DB(db.DBName)
-
 		log.Printf("MongoDB: %v:%v -> %v", db.DialServers(), db.DBName, db.Path)
-		http.Handle(fmt.Sprintf("/%v", db.Path), handler.GridFSServer(session.GridFS("fs"), db.Path))
+		http.Handle(fmt.Sprintf("/%v", db.Path), handler.GridFSServer(&db, db.Path))
 	}
 	return nil
 }

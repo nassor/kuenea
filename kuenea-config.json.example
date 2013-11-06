@@ -2,7 +2,7 @@
     "Databases": [{
       "Servers" : [ "localhost:27017" ],
     	"DBName"  : "test",
-    	"Path"    : ""
+    	"Path"    : "test/"
     }],
     "Local": [{
       "Root" : "/home/user/go/src/kuenea/test_data",
@@ -11,6 +11,6 @@
     "Http": {
 	    "Bind"    : "localhost",
 	    "Port"    : 8080,
-	    "Timeout" : 20000
+	    "Timeout" : 2000
 	}
 }
