@@ -4,7 +4,7 @@ File Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) 
 
 If you have a distributed application, is using mongodb, prefer keep all your assets in mongodb using gridfs and you think filesystem or CDN solutions are too painful to manage, probably Kuenea is for you.
 
-_Tested with go 1.1.1 and labix/mgo r2013.05.19_
+_Tested with go 1.1.2 and labix/mgo r2013.05.19_
 
 ## Benchmark
 * __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 13.04
@@ -19,13 +19,12 @@ __Requests: 10000 / Concurrency: 1000__
 |Kuenea - Filesystem | 10806.92   |0.925 s  |
 
 ## TODO
-* __Tests__
-* __DB Auth__
+* __Tests__ _(still learning how to do in Go)_
+* __Dial via Mongodb connection string__
 * __Improve Error Messages__
-* GridFS Memory Cache
 * HTTP Cache-Control
+* GroupCache Support
 * Improve Docs
-* SysV init config file
 
 ## Thank You
 * Go Community
