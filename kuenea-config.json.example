@@ -1,8 +1,7 @@
 {
     "Databases": [{
-      "Servers" : [ "localhost:27017" ],
-    	"DBName"  : "test",
-    	"Path"    : "test/"
+    		"ConnectURI": "mongodb://localhost/kuenea_test",
+    		"Path"    : "test/"
     }],
     "Local": [{
       "Root" : "/home/user/go/src/kuenea/test_data",

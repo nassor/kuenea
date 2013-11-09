@@ -4,16 +4,12 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"strconv"
-	"strings"
 )
 
 // Database connection config
 type DatabaseConfig struct {
-	Servers []string // MongoDB Server for mgo.Dial
-	DBName  string   // MongoDB Database
-	DBUser  string
-	DBPass  string
-	Path    string // One Path for each Database
+	ConnectURI string // MongoDB Connection URI
+	Path       string // One Path for each Database
 }
 
 // Filesystem folder config
@@ -49,12 +45,6 @@ func (config *Config) ReadConfigFile(fileName string) error {
 	}
 
 	return nil
-}
-
-// Return a string with all mongodb servers.
-// Used by mgo.Dial()
-func (dbConfig DatabaseConfig) DialServers() string {
-	return strings.Join(dbConfig.Servers, ",")
 }
 
 // Return string <bind>:<port> as tcp connect setting

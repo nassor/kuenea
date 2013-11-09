@@ -24,11 +24,11 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	path := strings.Replace(r.URL.Path[1:], g.PathFile, "", 1)
 
-	file, err = g.Session.DB(g.dbConf.DBName).GridFS("fs").Open(path)
+	file, err = g.Session.DB("").GridFS("fs").Open(path)
 	if err != nil {
 		g.Session.Refresh()
 		time.Sleep(1 * time.Second)
-		file, err = g.Session.DB(g.dbConf.DBName).GridFS("fs").Open(path)
+		file, err = g.Session.DB("").GridFS("fs").Open(path)
 		if err != nil {
 			fmt.Printf(err.Error())
 			http.NotFound(w, r)
@@ -46,9 +46,9 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Handle server requests, find file and response.
 func GridFSServer(dbConf *conf.DatabaseConfig, pathFile string) http.Handler {
-	session, err := mgo.Dial(dbConf.DialServers())
+	session, err := mgo.Dial(dbConf.ConnectURI)
 	if err != nil {
-		log.Fatalf("Could not conected to %s - %s database: %v", dbConf.DialServers(), dbConf.DBName, err.Error())
+		log.Fatalf("Could not conected to database: %v", err.Error())
 	}
 	session.SetMode(mgo.Monotonic, true)
 

@@ -63,7 +63,7 @@ func loadConfig() (conf.Config, error) {
 
 func loadGridsFS(config conf.Config) error {
 	for _, db := range config.Databases {
-		log.Printf("MongoDB: %v:%v -> %v", db.DialServers(), db.DBName, db.Path)
+		log.Printf("MongoDB: %v -> %v", db.ConnectURI, db.Path)
 		http.Handle(fmt.Sprintf("/%v", db.Path), handler.GridFSServer(&db, db.Path))
 	}
 	return nil
