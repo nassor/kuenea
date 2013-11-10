@@ -62,21 +62,18 @@ func loadConfig() (conf.Config, error) {
 }
 
 func loadGridsFS(config conf.Config) error {
-	for _, db := range config.Databases {
-		log.Printf("MongoDB: %v -> %v", db.ConnectURI, db.Path)
-		http.Handle(fmt.Sprintf("/%v", db.Path), handler.GridFSServer(&db, db.Path))
+	for _, mdbConf := range config.Databases {
+		http.Handle(fmt.Sprintf("/%v", mdbConf.Path), handler.GridFSServer(&mdbConf, mdbConf.Path))
 	}
 	return nil
 }
 
 func loadPaths(config conf.Config) error {
-	for _, local := range config.Local {
-		local.Root = strings.TrimSuffix(local.Root, "/")
-		local.Path = strings.TrimSuffix(local.Path, "/")
-		local.Path = strings.TrimPrefix(local.Path, "/")
-		local.Path = "/" + local.Path + "/"
-		log.Printf("LocalFS: %v -> %v", local.Root, local.Path)
-		http.Handle(local.Path, handler.LocalFSServer(local.Root, local.Path))
+	for _, localConf := range config.Local {
+		localConf.Path = strings.Trim(localConf.Path, "/")
+		localConf.Path = "/" + localConf.Path + "/"
+		fmt.Println(localConf.Path)
+		http.Handle(localConf.Path, handler.LocalFSServer(localConf))
 	}
 	return nil
 }

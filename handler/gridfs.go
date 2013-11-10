@@ -13,7 +13,7 @@ import (
 )
 
 type gridFSHandler struct {
-	dbConf   *conf.DatabaseConfig
+	mdbConf  *conf.DatabaseConfig
 	PathFile string
 	Session  *mgo.Session
 }
@@ -45,12 +45,13 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handle server requests, find file and response.
-func GridFSServer(dbConf *conf.DatabaseConfig, pathFile string) http.Handler {
-	session, err := mgo.Dial(dbConf.ConnectURI)
+func GridFSServer(mdbConf *conf.DatabaseConfig, pathFile string) http.Handler {
+	session, err := mgo.Dial(mdbConf.ConnectURI)
 	if err != nil {
 		log.Fatalf("Could not conected to database: %v", err.Error())
 	}
 	session.SetMode(mgo.Monotonic, true)
+	log.Printf("MongoDB: %v -> %v", session.LiveServers(), mdbConf.Path)
 
-	return &gridFSHandler{dbConf, pathFile, session}
+	return &gridFSHandler{mdbConf, pathFile, session}
 }
