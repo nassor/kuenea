@@ -20,7 +20,6 @@ __Requests: 10000 / Concurrency: 1000__
 
 ## TODO
 * __Tests__ _(still learning how to do in Go)_
-* __Dial via Mongodb connection string__
 * __Improve Error Messages__
 * HTTP Cache-Control
 * GroupCache Support
