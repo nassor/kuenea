@@ -1,10 +1,15 @@
 {
-    "Databases": [{
+    "GridFS": [{
     		"ConnectURI": "mongodb://localhost/kuenea_test",
-    		"Path"    : "test/"
+    		"Path"    : "img/",
+		"ReadSeeker": false
+    }, {
+    		"ConnectURI": "mongodb://localhost/kuenea_test",
+    		"Path"    : "video/",
+		"ReadSeeker": true
     }],
     "Local": [{
-      "Root" : "/home/user/go/src/kuenea/test_data",
+      "Root" : "/home/user/go/src/kuenea/extra/test_data",
       "Path" : "fs_test/"
     }],
     "Http": {

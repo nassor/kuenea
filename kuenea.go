@@ -62,8 +62,8 @@ func loadConfig() (conf.Config, error) {
 }
 
 func loadGridsFS(config conf.Config) error {
-	for _, mdbConf := range config.Databases {
-		http.Handle(fmt.Sprintf("/%v", mdbConf.Path), handler.GridFSServer(&mdbConf, mdbConf.Path))
+	for _, gridConf := range config.GridFS {
+		http.Handle(fmt.Sprintf("/%v", gridConf.Path), handler.GridFSServer(gridConf, gridConf.Path))
 	}
 	return nil
 }
@@ -72,7 +72,6 @@ func loadPaths(config conf.Config) error {
 	for _, localConf := range config.Local {
 		localConf.Path = strings.Trim(localConf.Path, "/")
 		localConf.Path = "/" + localConf.Path + "/"
-		fmt.Println(localConf.Path)
 		http.Handle(localConf.Path, handler.LocalFSServer(localConf))
 	}
 	return nil

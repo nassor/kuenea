@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime"
 	"net/http"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -13,7 +15,7 @@ import (
 )
 
 type gridFSHandler struct {
-	mdbConf  *conf.DatabaseConfig
+	gridFS   *conf.GridFSConfig
 	PathFile string
 	Session  *mgo.Session
 }
@@ -35,23 +37,45 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	w.Header().Set("Content-Type", file.ContentType())
-	_, err = io.Copy(w, file)
-	if err != nil {
-		http.Error(w, "gridfs read error: "+err.Error(), http.StatusInternalServerError)
-		return
+
+	if g.gridFS.ReadSeeker {
+		http.ServeContent(w, r, file.ContentType(), file.UploadDate(), file)
+	} else {
+
+		if t, err := time.Parse(http.TimeFormat, r.Header.Get("If-Modified-Since")); err == nil && file.UploadDate().Before(t.Add(2*time.Second)) {
+			delete(w.Header(), "Content-Type")
+			delete(w.Header(), "Content-Length")
+			w.WriteHeader(http.StatusNotModified)
+			return
+		}
+
+		if file.ContentType() == "" {
+			contentType := mime.TypeByExtension(filepath.Ext(file.Name()))
+			w.Header().Set("Content-Type", contentType)
+		} else {
+			w.Header().Set("Content-Type", file.ContentType())
+		}
+
+		w.Header().Set("Last-Modified", file.UploadDate().UTC().Format(http.TimeFormat))
+
+		_, err = io.Copy(w, file)
+		if err != nil {
+			http.Error(w, "gridfs read error: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		file.Close()
 	}
-	file.Close()
 }
 
 // Handle server requests, find file and response.
-func GridFSServer(mdbConf *conf.DatabaseConfig, pathFile string) http.Handler {
-	session, err := mgo.Dial(mdbConf.ConnectURI)
+func GridFSServer(gridFS conf.GridFSConfig, pathFile string) http.Handler {
+
+	session, err := mgo.Dial(gridFS.ConnectURI)
 	if err != nil {
 		log.Fatalf("Could not conected to database: %v", err.Error())
 	}
 	session.SetMode(mgo.Monotonic, true)
-	log.Printf("MongoDB: %v -> %v", session.LiveServers(), mdbConf.Path)
+	log.Printf("MongoDB: %v -> %v", session.LiveServers(), gridFS.Path)
 
-	return &gridFSHandler{mdbConf, pathFile, session}
+	return &gridFSHandler{&gridFS, pathFile, session}
 }

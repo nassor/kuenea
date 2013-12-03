@@ -7,15 +7,17 @@ import (
 )
 
 // Database connection config
-type DatabaseConfig struct {
+type GridFSConfig struct {
 	ConnectURI string // MongoDB Connection URI
 	Path       string // One Path for each Database
+	ReadSeeker bool
 }
 
 // Filesystem folder config
 type LocalFSConfig struct {
-	Root string
-	Path string
+	Root       string
+	Path       string
+	ReadSeeker bool
 }
 
 // HTTP Server config
@@ -27,9 +29,9 @@ type HttpServerConfig struct {
 
 // Configuration structure of asset server
 type Config struct {
-	Databases []DatabaseConfig
-	Local     []LocalFSConfig
-	Http      HttpServerConfig
+	GridFS []GridFSConfig
+	Local  []LocalFSConfig
+	Http   HttpServerConfig
 }
 
 // Read file json config file and setup asset server
