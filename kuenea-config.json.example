@@ -1,20 +1,20 @@
 {
-    "GridFS": [{
-    		"ConnectURI": "mongodb://localhost/kuenea_test",
-    		"Path"    : "img/",
-		"ReadSeeker": false
-    }, {
-    		"ConnectURI": "mongodb://localhost/kuenea_test",
-    		"Path"    : "video/",
-		"ReadSeeker": true
-    }],
-    "Local": [{
-      "Root" : "/home/user/go/src/kuenea/extra/test_data",
-      "Path" : "fs_test/"
-    }],
-    "Http": {
-	    "Bind"    : "localhost",
-	    "Port"    : 8080,
-	    "Timeout" : 2000
-	}
+  "GridFS": [{
+    "ConnectURI": "mongodb://localhost/kuenea_test",
+    "Path": "fast/",
+    "ReadSeeker": false
+  }, {
+    "ConnectURI": "mongodb://localhost/kuenea_test",
+    "Path": "seeker/",
+    "ReadSeeker": true
+  }],
+  "Local": [{
+    "Root": "/home/user/go/src/kuenea/extra/test_data",
+    "Path": "fs_test/"
+  }],
+  "Http": {
+    "Bind": "localhost",
+    "Port": 8080,
+    "Timeout": 2000
+  }
 }

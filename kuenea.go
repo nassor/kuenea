@@ -14,7 +14,6 @@ import (
 )
 
 func main() {
-	log.Println("Starting Kuenea file server...")
 
 	config, err := loadConfig()
 	if err != nil {
@@ -30,6 +29,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not load paths: %v", err.Error())
 	}
+
+	log.Println("Starting Kuenea file server at " + config.BindWithPort())
 
 	s := &http.Server{
 		Addr:         config.BindWithPort(),
@@ -63,7 +64,7 @@ func loadConfig() (conf.Config, error) {
 
 func loadGridsFS(config conf.Config) error {
 	for _, gridConf := range config.GridFS {
-		http.Handle(fmt.Sprintf("/%v", gridConf.Path), handler.GridFSServer(gridConf, gridConf.Path))
+		http.Handle(fmt.Sprintf("/%v", gridConf.Path), handler.GridFSServer(gridConf))
 	}
 	return nil
 }

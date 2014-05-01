@@ -68,7 +68,7 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handle server requests, find file and response.
-func GridFSServer(gridFS conf.GridFSConfig, pathFile string) http.Handler {
+func GridFSServer(gridFS conf.GridFSConfig) http.Handler {
 
 	session, err := mgo.Dial(gridFS.ConnectURI)
 	if err != nil {
@@ -77,5 +77,5 @@ func GridFSServer(gridFS conf.GridFSConfig, pathFile string) http.Handler {
 	session.SetMode(mgo.Monotonic, true)
 	log.Printf("MongoDB: %v -> %v", session.LiveServers(), gridFS.Path)
 
-	return &gridFSHandler{&gridFS, pathFile, session}
+	return &gridFSHandler{&gridFS, gridFS.Path, session}
 }
