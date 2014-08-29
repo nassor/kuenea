@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"kuenea/conf"
-	"kuenea/handler"
+	"github.com/rossan/kuenea/conf"
+	"github.com/rossan/kuenea/handler"
 )
 
 func main() {

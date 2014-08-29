@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"kuenea/conf"
+	"github.com/rossan/kuenea/conf"
 )
 
 // Handle local files (without filesystem directory)

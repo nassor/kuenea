@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"kuenea/conf"
-	"labix.org/v2/mgo"
+	"github.com/rossan/kuenea/conf"
+	"gopkg.in/mgo.v2"
 )
 
 var (

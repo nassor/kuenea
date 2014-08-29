@@ -9,7 +9,7 @@ _Tested with go 1.2.1_
 ## Dependencies
 [Rich MongoDB driver for Go](http://labix.org/mgo)
 
-    go get -u go get -u labix.org/v2/mgo
+    go get -u go get -u gopkg.in/mgo.v2
 
 ## Benchmark
 * __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 13.04
