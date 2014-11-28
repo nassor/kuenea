@@ -9,7 +9,7 @@ _Tested with go 1.3.1_
 ## Dependencies
 [Rich MongoDB driver for Go](http://labix.org/mgo)
 
-    go get -u go get -u gopkg.in/mgo.v2
+    go get -u gopkg.in/mgo.v2
 
 ## Benchmark
 * __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 13.04
@@ -32,4 +32,4 @@ __Requests: 10000 / Concurrency: 1000__
 * Go Community
 * Gustavo Niemeyer and Contributors for awesome [MongoDB Driver (mgo)](http://labix.org/mgo)
 
-[![baby-gopher](https://raw2.github.com/drnic/babygopher-site/gh-pages/images/babygopher-badge.png)](http://www.babygopher.org)
+[![baby-gopher](https://raw.github.com/drnic/babygopher-site/gh-pages/images/babygopher-badge.png)](http://www.babygopher.org)
