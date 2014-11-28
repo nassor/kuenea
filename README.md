@@ -7,9 +7,8 @@ If you have a distributed application, is using mongodb, prefer keep all your as
 _Tested with go 1.3.1_
 
 ## Dependencies
-[Rich MongoDB driver for Go](http://labix.org/mgo)
 
-    go get -u gopkg.in/mgo.v2
+    See Makefile
 
 ## Benchmark
 * __Hardware__: Intel® Core™ i7-2720QM CPU @ 2.20GHz / 6GB DDR3-1333 / 7200RPM SATA Disk | Ubuntu 13.04
