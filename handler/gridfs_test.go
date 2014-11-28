@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/rossan/kuenea/conf"
+	"github.com/nassor/kuenea/conf"
 	"gopkg.in/mgo.v2"
 )
 

@@ -7,7 +7,7 @@ import (
 
 func readConfigFile() Config {
 	var config Config
-	config.ReadConfigFile("../kuenea-config.json.example")
+	config.ReadConfigFile("../kuenea-config.yaml.example")
 	return config
 }
 
@@ -38,7 +38,7 @@ func TestLocalFS(t *testing.T) {
 		t.Error("local filesystem config is a Slice (one or more filesystem path) or 'nil', test detected a: " + localType.Kind().String())
 	}
 
-	if config.Local != nil && config.Local[0].Root != "/home/user/go/src/kuenea/extra/test_data" {
+	if config.Local != nil && config.Local[0].Root != "./extra/test_data" {
 		t.Error("can't find Root '/home/user/go/src/kuenea/extra/test_data' for Local on example config file")
 	}
 

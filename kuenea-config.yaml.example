@@ -1,0 +1,20 @@
+# MongoDB GridFS Configuration
+gridfs:
+- connect_uri: "mongodb://localhost/kuenea_test" # MongoDB URI of database with gridfs set
+  path: "fast/" # Path after http/bind:port, ex.: http://localhost:8080/fast/[files]
+  read_seeker: false
+  cached_items: 150 # Cached Itens, keep last <number> in a LRU cache, CAUTION with heavy files here
+- connect_uri: "mongodb://localhost/kuenea_test"
+  path: "seeker/"
+  read_seeker: true # Read Seeker is useful for videos, send more data information to browser
+
+# File System configuration, without support to cached items or read_seeker
+local:
+- root: "./extra/test_data"
+  path: "fs_test/"
+
+# Configure Kuenea service
+http:
+  bind: "localhost"
+  port: 8080
+  timeout: 2000

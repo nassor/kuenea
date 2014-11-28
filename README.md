@@ -4,7 +4,7 @@ File Server using [GridFS](http://docs.mongodb.org/manual/applications/gridfs/) 
 
 If you have a distributed application, is using mongodb, prefer keep all your assets in mongodb using gridfs and you think filesystem or CDN solutions are too painful to manage, probably Kuenea is for you.
 
-_Tested with go 1.2.1_
+_Tested with go 1.3.1_
 
 ## Dependencies
 [Rich MongoDB driver for Go](http://labix.org/mgo)

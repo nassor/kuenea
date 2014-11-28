@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
-	"github.com/rossan/kuenea/conf"
-	"github.com/rossan/kuenea/handler"
+	"github.com/nassor/kuenea/conf"
+	"github.com/nassor/kuenea/handler"
 )
 
 func main() {
@@ -34,7 +33,7 @@ func main() {
 
 	s := &http.Server{
 		Addr:         config.BindWithPort(),
-		ReadTimeout:  time.Duration(config.Http.Timeout) * time.Millisecond,
+		ReadTimeout:  time.Duration(config.HTTP.Timeout) * time.Millisecond,
 		WriteTimeout: 0}
 
 	log.Fatal(s.ListenAndServe())
@@ -43,19 +42,16 @@ func main() {
 func loadConfig() (conf.Config, error) {
 	var config conf.Config
 
-	dir, err := os.Getwd()
-	if err != nil {
-		return config, err
-	}
-
 	var configFile = flag.String("c", "", "location of the configuration file")
 	flag.Parse()
+
 	if *configFile == "" {
-		*configFile = dir + "/kuenea-config.json"
+		*configFile = "/etc/kuenea/kuenea-config.yaml"
 	}
 
-	err = config.ReadConfigFile(*configFile)
+	err := config.ReadConfigFile(*configFile)
 	if err != nil {
+		log.Fatalf("Can't open configuration file (%s)", configFile)
 		return config, err
 	}
 

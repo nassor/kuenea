@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"mime"
@@ -10,14 +9,34 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rossan/kuenea/conf"
+	"github.com/golang/groupcache/lru"
+	"github.com/nassor/kuenea/conf"
 	"gopkg.in/mgo.v2"
 )
 
+// Handle server requests, find file and response.
+func GridFSServer(gridFS conf.GridFSConfig) http.Handler {
+	session, err := mgo.Dial(gridFS.ConnectURI)
+	if err != nil {
+		log.Fatalf("Could not conected to database: %v", err.Error())
+	}
+	session.SetMode(mgo.Monotonic, true)
+	log.Printf("MongoDB: %v -> %v", session.LiveServers(), gridFS.Path)
+
+	assetsCache := lru.New(gridFS.CachedItems)
+	assetsCache.OnEvicted = func(key lru.Key, value interface{}) {
+		file := value.(*mgo.GridFile)
+		defer file.Close()
+	}
+
+	return &gridFSHandler{&gridFS, gridFS.Path, session, assetsCache}
+}
+
 type gridFSHandler struct {
-	gridFS   *conf.GridFSConfig
-	PathFile string
-	Session  *mgo.Session
+	gridFS      *conf.GridFSConfig
+	PathFile    string
+	Session     *mgo.Session
+	assetsCache *lru.Cache
 }
 
 func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -26,13 +45,27 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	path := strings.Replace(r.URL.Path[1:], g.PathFile, "", 1)
 
-	file, err = g.Session.DB("").GridFS("fs").Open(path)
+	// Find and return file from cache
+	if cachedFile, ok := g.assetsCache.Get(path); ok {
+		file, ok = cachedFile.(*mgo.GridFile)
+		file.Seek(0, 0)
+		if !ok {
+			file, err = g.Session.DB("").GridFS("fs").Open(path)
+		}
+	} else {
+		file, err = g.Session.DB("").GridFS("fs").Open(path)
+		g.assetsCache.Add(path, file)
+	}
+
+	// If stuff dont feel good
 	if err != nil {
+		// Try reconnect database to reach file again
 		g.Session.Refresh()
 		time.Sleep(1 * time.Second)
 		file, err = g.Session.DB("").GridFS("fs").Open(path)
+		// Nothing to do
 		if err != nil {
-			fmt.Printf(err.Error())
+			log.Printf(err.Error())
 			http.NotFound(w, r)
 			return
 		}
@@ -63,19 +96,5 @@ func (g *gridFSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "gridfs read error: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
-		file.Close()
 	}
-}
-
-// Handle server requests, find file and response.
-func GridFSServer(gridFS conf.GridFSConfig) http.Handler {
-
-	session, err := mgo.Dial(gridFS.ConnectURI)
-	if err != nil {
-		log.Fatalf("Could not conected to database: %v", err.Error())
-	}
-	session.SetMode(mgo.Monotonic, true)
-	log.Printf("MongoDB: %v -> %v", session.LiveServers(), gridFS.Path)
-
-	return &gridFSHandler{&gridFS, gridFS.Path, session}
 }
