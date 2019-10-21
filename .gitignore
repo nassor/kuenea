@@ -1,8 +1,16 @@
-*.orig
-*.rej
+# Binaries for programs and plugins
 *.exe
-.*.swp
-*.un~
-*.json
-kuenea
-kuenea-config.yaml
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# INTERNAL
+./kuenea
+./kuenea-config.yaml
